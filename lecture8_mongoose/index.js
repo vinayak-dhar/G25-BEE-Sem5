@@ -70,7 +70,7 @@ app.use(express.urlencoded({extended: true}));
 const User = require('./models/user.model') // -> importing User collection into this variable
 
 
-app.get('/', async(req,res) => {
+app.get('/', async(req,res) => { // we create -> create data hard coded using .get()
     const user = await User.create({
         name:"user 1",
         email: "user123@gmail.com",
