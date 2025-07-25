@@ -1,0 +1,22 @@
+{
+  "name": "@vinayakdhar/otp-handler",
+  "version": "1.0.0",
+  "description": "generates otp and verifies it",
+  "keywords": [
+    "otp",
+    "otp-handler",
+    "otp-generate"
+  ],
+  "license": "ISC",
+  "author": "vinayak",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@vinayakdhar/otp-handler": "^1.0.1",
+    "express": "^5.1.0"
+  }
+}
