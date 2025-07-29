@@ -1,0 +1,13 @@
+CSR -> client side rendering
+- frontend and backend both are different application
+- request data from backend and then manipulates it to show on browser
+- if we are making two application for backendo and frontend we have to deploy both the application
+
+
+SSR -> server side rendering
+- both UI and API are in some application
+- render the whole UI (html) file on browser
+- we only have to deploy the application ones
+- API request is sended by the same server
+eq. public forlder
+template engine
