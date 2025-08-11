@@ -1,6 +1,10 @@
 const form = document.getElementById('task-form');
 const filterButtons = document.getElementById('filter');
+const todoContainer = document.getElementById('todo-container');
 
+
+
+getAllTodos(); // when script load this will run
 
 // e -> event reference
 // event.target -> stores event origin element (for .target it will store the form)
@@ -11,6 +15,8 @@ form.addEventListener("submit", async(e) => {
     const task = input.value; // input value of what user have writen 
     // const res = await axios.post('http://localhost:4000/todo/create',{task:task}); // or
     const res = await axios.post('http://localhost:4000/todo/create',{task});
+    input.value = ""; // input will get empty after todo created
+    getAllTodos();
 })
 
 
@@ -37,3 +43,27 @@ filterButtons.addEventListener("click",(e) => {
         }
     }
 })
+
+async function getAllTodos() {
+    let res = await axios.get("http://localhost:4000/todo/all");
+    let todos = res.data.todos; // returns the array of all the data present in the database
+    renderTodos(todos);
+}
+
+
+// API integeration and DOM
+function renderTodos(todos) {
+    todoContainer.innerHTML = ""; // will prevent duplicate data in the ui
+    for (let todo of todos) {
+        const div = document.createElement("div");
+        div.className = "todo";
+    
+        // innerHTML -> we can use html tags in it , innerText -> we can only use text
+        div.innerHTML = `<h4>${todo.task}</h4> 
+        <div>
+            <button class="status">${todo.status ? "Undo" : "Completed"}</button>
+            <button class="delete">delete</button>
+        </div>`;
+        todoContainer.prepend(div);
+    }
+}
