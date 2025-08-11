@@ -3,7 +3,7 @@ const Todo = require('../models/Todo.model');
 const createTodo = async(req,res) => {
     try {
         const { task } = req.body;
-        const todo = new Todo.create({
+        const todo = await Todo.create({
             task:task
         });
         res.status(201).json({ todo,message:"todo created successfully" });
@@ -48,4 +48,14 @@ const searchTodo = async(req,res) => {
         res.status(500).json({ message:error.message });
     }
 }
-module.exports = { createTodo, deleteTodo, updateTodoStatus, searchTodo };
+
+const allTodo = async(req,res) => {
+    try {
+        const todos = await Todo.find();
+        res.status(200).json({todos});
+    }
+    catch(error) {
+        res.status(500).json({ message:error.message });
+    }
+}
+module.exports = { createTodo, deleteTodo, updateTodoStatus, searchTodo, allTodo };
