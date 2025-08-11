@@ -60,10 +60,34 @@ function renderTodos(todos) {
     
         // innerHTML -> we can use html tags in it , innerText -> we can only use text
         div.innerHTML = `<h4>${todo.task}</h4> 
-        <div>
-            <button class="status">${todo.status ? "Undo" : "Completed"}</button>
-            <button class="delete">delete</button>
+        <div id=${todo._id}>
+        <button class="status">${todo.status ? "Undo" : "Completed"}</button>
+        <button class="delete">delete</button>
         </div>`;
         todoContainer.prepend(div);
     }
 }
+
+
+// dynamic elements can't be selected as they are not present at that time when JS file loads
+// const todos = document.getElementsByClassName('todo'); // this will not work as todo is not present in html at time of JS loads
+
+todoContainer.addEventListener("click",async(e) => {
+    const btnClass = e.target.className;
+    
+    // if btnClass is not delete or status return from function
+    if (btnClass != "delete" && btnClass != "status") return;
+
+    const todoId = e.target.parentElement.id;
+
+    if (btnClass == "delete") {
+        await axios.delete(`http://localhost:4000/todo/delete/${todoId}`);
+        
+    }
+    if (btnClass == "status") {
+        await axios.put(`http://localhost:4000/todo/updateStatus/${todoId}`);
+
+    }
+    getAllTodos();
+})
+
