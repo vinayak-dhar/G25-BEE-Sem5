@@ -1,0 +1,8 @@
+Auth
+  |-> Authentication -> login, sign up (password -> hashing)
+  |-> Authorization -> if the current user has a required access of a functionality or process
+
+  
+Authentication -> bcrypt -> to encrypt a string -> hashing -> converting a "string" word to another by adding buffers(random characters), so that guessing or decoding original value of "string" is nearly impossible
+
+
