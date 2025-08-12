@@ -27,12 +27,15 @@ filterButtons.addEventListener("click",(e) => {
     if (!button) return;
     if (button == "all") {
         e.target.className = "active";
+        filterTodos("all");
     }
     if (button == "active") {
         e.target.className = "active";
+        filterTodos("active");
     }
     if (button == "completed") {
         e.target.className = "active";
+        filterTodos("completed");
     }
 
     const filterBtns = filterButtons.children;
@@ -91,3 +94,13 @@ todoContainer.addEventListener("click",async(e) => {
     getAllTodos();
 })
 
+
+// filter the todos according to all, active and completed
+async function filterTodos(filterName) {
+    let res = await axios.get("http://localhost:4000/todo/filter", {
+        params: {
+            filterName:filterName
+        }
+    });
+    renderTodos(res.data.todos);
+}
