@@ -31,4 +31,24 @@ router.post('/signup', async(req,res) => {
     }
 })
 
+router.post('/login',async(req,res) => {
+    try{
+        const { email, password } = req.body;
+        const user = await User.findOne({ email: email }).select("+password"); // now password field will be selected
+        if (!user) {
+            throw new Error("Invalid email or password");
+        }
+        // bcrypt.compare will encrypt the password that is from the user and will compare this with the hash password stored in the database
+        // user.password -> undefined because in models we have select:false
+        const isMatched = await bcrypt.compare(password,user.password);
+        if (!isMatched) {
+            throw new Error("Invalid email or password");
+        }
+        res.status(200).json({ message:"user loggedIn successfully" });
+    }
+    catch(error) {
+        res.status(400).json({ message:error.message });
+    }
+})
+
 module.exports = router;
