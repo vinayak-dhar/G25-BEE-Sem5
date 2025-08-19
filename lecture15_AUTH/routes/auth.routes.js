@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const verifyUser = require('../middleware/verify.middleware');
+const verifyAdmin = require('../middleware/verifyAdmin.middleware');
 
 
 // AUTHENTICATION:- 
@@ -124,6 +125,18 @@ router.get('/check', verifyUser, async(req,res) => {
 })
 
 
+// geting all the users that are not admin from the database
+router.get('/info',verifyUser, verifyAdmin, async(req,res) => {
+    try{
+        // $ne -> not equal 
+        // means that role != "admin"
+        let users = await User.find({ role: {$ne:"admin"} });
+        res.status(200).json({ users });
+    }
+    catch(error) {
+        res.status(400).json({ message:error.message });
+    }
+})
 
 
 
