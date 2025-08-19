@@ -14,6 +14,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required:true,
         select:false // this field will not be available in user data when we extract a user from DB
+    },
+    role: {
+        type:String,
+        enum:["user","admin"], // -> possible values of attribute
+        default:"user",
+        select:false
     }
 }, {
     timestamps:true // created at and updated at field will be included

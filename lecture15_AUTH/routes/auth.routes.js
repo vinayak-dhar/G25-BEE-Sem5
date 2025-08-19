@@ -34,6 +34,28 @@ router.post('/signup', async(req,res) => {
     }
 })
 
+// admin signup
+router.post('/admin/signup',async(req,res) => {
+    try {
+        let { name, email, password } = req.body;
+        if (!name || !email || !password) {
+            throw new Error("All fields are required");
+        }
+        const hashPass = await bcrypt.hash(password,10);
+        
+        let user = await User.create({
+            name:name,
+            email:email,
+            password:hashPass,
+            role:"admin"
+        })
+        res.status(200).json({ message:"user signup successfull", user });
+    }
+    catch(error) {
+        res.status(500).json({ message:error.message });
+    }
+})
+
 router.post('/login',async(req,res) => {
     try{
         const { email, password } = req.body;
@@ -57,7 +79,10 @@ router.post('/login',async(req,res) => {
             process.env.JWT_SECRET, { expiresIn:'1h', algorithm:"HS256" }
         );
 
-        res.status(200).json({ message:"user loggedIn successfully", token:token });
+        // cookies implementation
+        res.cookie("token",token,{ httpOnly:true, secure:false, domain:"localhost", path:"/", maxAge:24*60*60*12 });
+        // res.status(200).json({ message:"user loggedIn successfully", token:token }); -> now we don't need to send token in res
+        res.status(200).json({ message:"user loggedIn successfully" });
     }
     catch(error) {
         res.status(400).json({ message:error.message });
@@ -97,6 +122,9 @@ router.get('/check', verifyUser, async(req,res) => {
 
     }
 })
+
+
+
 
 
 module.exports = router;

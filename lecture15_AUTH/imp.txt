@@ -19,3 +19,22 @@ JWT:- token based authorizationn
   1. generate token for a logged in user
   2. user sends the token everytime it sends a request to backen(server)
   3. server will validate the token 
+
+
+Cookies:- 
+  it is used to store data -> if we visit a website once that website will store the data as cookies in it
+  so that if we visit that website again then all the process inside of the website can be easily done
+
+
+creating cookies -> cookie only created in secure website i.e. https
+res.cookie("token",token,{ httpOnly:true,secure:false,domain:"localhost",path:"/",maxAge:24*60*60*12 })
+httpOnly:true -> means that we can create cookies in http website/localhost
+secure:false -> cannot access cookie from JS if the cookie is secure:true
+domain:"localhost" -> which sets the cookie
+path:"/" -> storage path
+maxAge:24*60*60*12 -> time period of a cookie
+
+
+cookie-parser:- to read cookie send by the client to server
+
+express-session:- it is server only (SSR) -> only used while using ejs
