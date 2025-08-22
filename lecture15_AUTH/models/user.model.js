@@ -20,6 +20,15 @@ const userSchema = new mongoose.Schema({
         enum:["user","admin"], // -> possible values of attribute
         default:"user",
         select:false
+    },
+    package: {
+        type:String,
+        enum:["free","gold","platinum"],
+        default:"free"
+    },
+    credits: {
+        type:Number,
+        default:0
     }
 }, {
     timestamps:true // created at and updated at field will be included

@@ -82,8 +82,9 @@ router.post('/login',async(req,res) => {
 
         // cookies implementation
         res.cookie("token",token,{ httpOnly:true, secure:false, domain:"localhost", path:"/", maxAge:24*60*60*12 });
-        // res.status(200).json({ message:"user loggedIn successfully", token:token }); -> now we don't need to send token in res
-        res.status(200).json({ message:"user loggedIn successfully" });
+        // now we don't need to send token in res
+        res.status(200).json({ message:"user loggedIn successfully", token:token });
+        // res.status(200).json({ message:"user loggedIn successfully" });
     }
     catch(error) {
         res.status(400).json({ message:error.message });
