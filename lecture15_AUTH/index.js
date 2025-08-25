@@ -4,13 +4,16 @@ const connectDB = require('./db/connectDB');
 require('dotenv').config();
 const PORT = process.env.PORT;
 const authRouter = require('./routes/auth.routes');
-// const userRouter = require('./routes/user.routes');
+const userRouter = require('./routes/user.routes');
 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
 
+
+// routes
 app.use('/auth',authRouter);
+app.use('/user',userRouter);
 
 app.get('/', (req,res) => {
 

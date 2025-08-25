@@ -1,10 +1,58 @@
 const express = require('express');
 const verifyUser = require('../middleware/verify.middleware');
+const { verifyGoldUser, verifyPlatinumUser} = require('../middleware/verifyPremium.middleware');
 const User = require('../models/user.model');
 const Product = require('../models/product.model');
 const router = express.Router();
 
-router.post("./package/buy" ,verifyUser ,async(req,res) => {
+// create product 
+const products = [
+    {
+        name:"product 1",
+        price:1999,
+        description:"this is product 1"
+    },
+    {
+        name:"product 1",
+        price:2999,
+        description:"this is product 1"
+    },
+    {
+        name:"product 2",
+        price:1099,
+        description:"this is product 2"
+    },
+    {
+        name:"product 3",
+        price:2299,
+        description:"this is product 3"
+    },
+    {
+        name:"product 4",
+        price:1799,
+        description:"this is product 4"
+    },
+    {
+        name:"product 5",
+        price:500,
+        description:"this is product 5"
+    },
+    {
+        name:"product 6",
+        price:5999,
+        description:"this is product 6"
+    }
+]
+router.get('/create/products',async(req,res) => {
+    try {
+        const allProducts = await Product.insertMany(products);
+        res.status(200).json({ products:allProducts });
+    } catch (error) {
+        res.status(500).json({ message:error.message });
+    }
+})
+
+router.post("/package/buy" ,verifyUser ,async(req,res) => {
     try{
         const { package } = req.query;
         if (!package) {
@@ -28,7 +76,7 @@ router.post("./package/buy" ,verifyUser ,async(req,res) => {
 })
 
 
-router.get('/gold/discount/:productId', async(req,res) => {
+router.get('/gold/discount/:productId', verifyUser, verifyGoldUser, async(req,res) => {
     try{
         const { productId } = req.params;
         const userId = req.user.id;
@@ -55,7 +103,7 @@ router.get('/gold/discount/:productId', async(req,res) => {
     }
 })
 
-router.get('/platinum/discount/:productId', async(req,res) => {
+router.get('/platinum/discount/:productId', verifyUser, verifyPlatinumUser, async(req,res) => {
     try{
         const { productId } = req.params;
         const userId = req.user.id;
