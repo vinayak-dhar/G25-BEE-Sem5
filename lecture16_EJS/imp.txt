@@ -1,0 +1,40 @@
+Auth
+  |-> Authentication -> login, sign up (password -> hashing)
+  |-> Authorization -> if the current user has a required access of a functionality or process
+
+  
+Authentication -> bcrypt -> to encrypt a string -> hashing -> converting a "string" word to another by adding buffers(random characters), so that guessing or decoding original value of "string" is nearly impossible
+
+Authorization -> 
+ - to segregate users on the basis of, (authorized user, role based access, premium based access)
+
+ways for Authorization:- 
+ - JWT (json web token) -> include both client and server
+ - express-session -> includ server
+ - Cookies -> temporary storage for sever and client
+ - passport -> provide google auth -> only server side -> 3rd party application
+
+
+JWT:- token based authorizationn
+  1. generate token for a logged in user
+  2. user sends the token everytime it sends a request to backen(server)
+  3. server will validate the token 
+
+
+Cookies:- 
+  it is used to store data -> if we visit a website once that website will store the data as cookies in it
+  so that if we visit that website again then all the process inside of the website can be easily done
+
+
+creating cookies -> cookie only created in secure website i.e. https
+res.cookie("token",token,{ httpOnly:true,secure:false,domain:"localhost",path:"/",maxAge:24*60*60*12 })
+httpOnly:true -> means that we can create cookies in http website/localhost
+secure:false -> cannot access cookie from JS if the cookie is secure:true
+domain:"localhost" -> which sets the cookie
+path:"/" -> storage path
+maxAge:24*60*60*12 -> time period of a cookie
+
+
+cookie-parser:- to read cookie send by the client to server
+
+express-session:- it is server only (SSR) -> only used while using ejs
