@@ -6,6 +6,22 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>hello world</h1>
+    <h1><%= username %></h1>
+    <% contacts.forEach(contact => { %>
+        <h2><%= contact.name %></h2>
+        <h4><%= contact.phone %></h4>
+    <% }) %>
 </body>
 </html>
+
+
+<!-- 
+    we can use css, bootstrap, tailwind etc
+    but we can't create a style.css file for css
+    we can only use css using style tag
+-->
+
+<!-- 
+    signup ===> login ===>
+            |          |-> - credentials of the token
+-->

@@ -7,16 +7,6 @@ const verifyUser = require('../middleware/verify.middleware');
 const verifyAdmin = require('../middleware/verifyAdmin.middleware');
 
 
-
-
-router.get('/signup',(req,res) => {
-    res.render("signup")
-})
-router.get('/login',(req,res) => {
-    res.render("login");
-})
-
-
 // AUTHENTICATION:- 
 // .get request does not have body therefore it will only send data through url -> that can easily hack
 // therefore we used .post request for this
@@ -38,8 +28,7 @@ router.post('/signup', async(req,res) => {
             email:email,
             password:hashPass
         })
-        res.redirect('/auth/login'); // after signup it will redirect to login api with get request
-        // res.status(200).json({ message:"user signup successfull", user });
+        res.status(200).json({ message:"user signup successfull", user });
     }
     catch(error) {
         res.status(500).json({ message:error.message });
@@ -94,10 +83,8 @@ router.post('/login',async(req,res) => {
         // cookies implementation
         res.cookie("token",token,{ httpOnly:true, secure:false, domain:"localhost", path:"/", maxAge:24*60*60*12 });
         // now we don't need to send token in res
-        // res.status(200).json({ message:"user loggedIn successfully", token:token });
+        res.status(200).json({ message:"user loggedIn successfully", token:token });
         // res.status(200).json({ message:"user loggedIn successfully" });
-
-        res.redirect('/');
     }
     catch(error) {
         res.status(400).json({ message:error.message });

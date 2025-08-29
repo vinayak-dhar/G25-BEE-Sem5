@@ -1,11 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-
 async function verifyUser(req, res, next) {
     try {
         const authorization = req.headers.authorization;
-        // cookies is not available direclty therefore we need to install cookie-parser
-        const token = authorization?.split(" ")[1] || req.cookies.token; // -> in here ?. stands for optional reques if authorization is undefined the split method will not be called
+        const token = authorization.split(" ")[1];
         const payload = jwt.verify(token, process.env.JWT_SECRET);
         req.user = payload;
         next();
