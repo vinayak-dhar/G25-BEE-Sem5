@@ -1,0 +1,66 @@
+nextjs frontend -> framework for react
+nextjs backend -> api create
+
+react -> library
+create -> npx create-next-app@latest appName
+rules:- these are the rules so the application show what type of error we need to show
+ESLint
+Biome
+None
+
+framework -> need to follow the structure provided by the developers
+library -> no need to follow any structure
+
+
+
+√ Would you like to use TypeScript? ... No / Yes
+√ Which linter would you like to use? » ESLint
+√ Would you like to use Tailwind CSS? ... No / Yes
+√ Would you like your code inside a `src/` directory? ... No / Yes
+√ Would you like to use App Router? (recommended) ... No / Yes
+√ Would you like to use Turbopack? (recommended) ... No / Yes
+√ Would you like to customize the import alias (`@/*` by default)? ... No / Yes
+Creating a new Next.js app in D:\college\sem-5\BEE\lecture18_React_Next-CSR\frontend.
+
+
+routing in nextjs -> e.g. -> /home, etc
+page based routing -> file based
+App(folder based routing)
+
+
+
+"use client" -> to tell which rendring is using 
+
+return<>
+        <h1>hello world</h1> -> renders the UI
+    </>
+export default About; -> to tell which function to run
+
+
+chian routing -> localhost:3000/user/info
+
+dynamic routing -> 
+
+
+DOM -> actual DOM will get update only when the "comparison" occurs b/w virtual DOM & DOM
+                                                    |-> this done by "hooks" -> lifecycle method -> this whole process is rerender
+
+React -> virtual DOM -> in this we donot update the whole page but update a some on the page -> all the changes are reflect in virtual DOM and then goes to "actual DOM"        
+
+
+React fiber -> checks for changes and update tehn on that instance -> increase rerendering speed
+
+
+hooks -> useState, useEffect
+useState -> to create a "state" in react page
+                           |-> variable
+const [count,setCount] = useState(0); -> destructing of [count,setCount] - [getter,setter]
+                                  |-> setting the initial value of the setter -> let count = 0
+whenever a "state" is changed comparison occurs
+
+
+setCount(count+1); -> count = count + 1
+setCount((prev) => prev + 1); -> count += 1
+
+jitne jada props honge utni jada rerendering hogi
+in react we need to minimize the time of rerendering
