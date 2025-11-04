@@ -96,8 +96,8 @@ export default function Home() {
               <div>
                 <p className="text-xl">{post.content}</p>
                 <p className="text-sm text-gray-400 float-end">{post.createdAt}</p>
-                <div>
-                  <Heart fill=""/> {post.likes.length} Likes
+                <div className="flex">
+                  {post.likes.includes(username)?<Heart fill="red" className="mr-2"/>:<Heart className="mr-2"/>} {post.likes.length} Likes 
                 </div>
               </div>
             </div>
