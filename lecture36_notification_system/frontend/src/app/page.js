@@ -86,7 +86,7 @@ export default function Home() {
           <button className="border bg-blue-300 rounded-lg">Post</button>
       </form>
 
-      <div className="p-5">
+      <div className="p-5 flex flex-col gap-3">
         {/* to handle undefined use '?' */}
         {posts?.map((post,indx) => {
           return <div key={indx} className="p-4 border rounded-lg shadow-md">
