@@ -59,7 +59,7 @@ app.post("/post/create",async(req,res) => {
 });
 
 app.get('/post/all',async(req,res) => {
-  res.status({posts:Posts});
+  res.status(200).json({posts:Posts});
 })
 
 app.get("/", (req, res) => {

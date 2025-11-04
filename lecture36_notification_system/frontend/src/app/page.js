@@ -1,5 +1,7 @@
 "use client"
 import axios from "axios";
+import { Heart, User } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
@@ -8,13 +10,30 @@ export default function Home() {
   const [isLoggedIn,setIsLoggedIn] = useState(false);
   const [username,setUserName] = useState("");
   const [content,setContent] = useState("");
-
+  const [posts,setPosts] = useState([]);
+  const [refresh,setRefresh] = useState(0);
 
   // socket client initialise
   useEffect(() => {
     const newSocket = io("http://localhost:5000");
     setSocket(newSocket);
   },[]);
+
+  // useEffect(() => { // we cannot call asysnc. callbacks like api calling etc. -> therefore it cannot be asysnc.
+  // })
+
+  // so to make it async -> will create a asysnc function then call it inside the useEffect
+  const getAllPosts = async() => {
+    if (isLoggedIn) {
+      let res = await axios.get('http://localhost:5000/post/all');
+      setPosts(res.data.posts);
+    }
+  }
+
+  useEffect(() => {
+    getAllPosts();
+  },[refresh]);
+
 
   // client connection
   useEffect(() => {
@@ -28,11 +47,12 @@ export default function Home() {
     e.preventDefault();
     socket.emit("register",username);
     setIsLoggedIn(true);
+    setRefresh(prev => prev+1);
   }
 
   if (!isLoggedIn) {
     return (
-      <div className="h-screen w-full bg-white text-black flex justify-center items-center">
+      <div className="min-h-screen w-full bg-white text-black flex justify-center items-center">
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 border rounded-md px-4 py-5">
           <label form="username">Username</label>
           <input onChange={(e) => setUserName(e.target.value)} className="border" id="username" placeholder="Enter Name"></input>
@@ -50,18 +70,40 @@ export default function Home() {
       content
     };
     let res = await axios.post("http://localhost:5000/post/create",payload);
+    if (res.status == 201) {
+      setRefresh(prev => prev+1);
+    }
   }
 
 
   return (
-    <div className="h-screen w-full bg-white text-black px-20 py-10">
+    <div className="min-h-screen w-full bg-white text-black px-20 py-10">
       <h1 className="text-2xl font-semibold">Hello {username}</h1>
 
       <form onSubmit={handlePostCreate} className="flex flex-col gap-2 border rounded-md px-4 py-5">
           <label form="username">Create Tweet</label>
-          <textarea rows={3} cols={7} onChange={(e) => setUserName(e.target.value)} className="border" id="username"></textarea>
+          <textarea rows={3} cols={7} onChange={(e) => setContent(e.target.value)} className="border" id="username"></textarea>
           <button className="border bg-blue-300 rounded-lg">Post</button>
-        </form>
+      </form>
+
+      <div className="p-5">
+        {/* to handle undefined use '?' */}
+        {posts?.map((post,indx) => {
+          return <div key={indx} className="p-4 border rounded-lg shadow-md">
+            <div className="flex gap-2 items-center">
+              <User className="h-7 w-7 border rounded-full"></User>
+              <h4 className="text-lg font-semibold">{post.author}</h4>
+              <div>
+                <p className="text-xl">{post.content}</p>
+                <p className="text-sm text-gray-400 float-end">{post.createdAt}</p>
+                <div>
+                  <Heart fill=""/> {post.likes.length} Likes
+                </div>
+              </div>
+            </div>
+          </div>
+        })}
+      </div>
     </div>
   )
 }
