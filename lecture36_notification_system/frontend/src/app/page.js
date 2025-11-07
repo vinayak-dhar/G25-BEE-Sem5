@@ -75,6 +75,18 @@ export default function Home() {
     }
   }
 
+  const handlePostLike = async(id) => {
+    try {
+      let res = await axios.post(`http://localhost:5000/post/like/${id}/${username}`);;
+      if (res.status == 200) {
+        setRefresh(prev => prev + 1);
+      }
+    }
+    catch (error) {
+      console.log(error.message);
+    }
+  }
+
 
   return (
     <div className="min-h-screen w-full bg-white text-black px-20 py-10">
@@ -93,14 +105,12 @@ export default function Home() {
             <div className="flex gap-2 items-center">
               <User className="h-7 w-7 border rounded-full"></User>
               <h4 className="text-lg font-semibold">{post.author}</h4>
-              <div>
-                <p className="text-xl">{post.content}</p>
-                <p className="text-sm text-gray-400 float-end">{post.createdAt}</p>
-                <div className="flex">
-                  {post.likes.includes(username)?<Heart fill="red" className="mr-2"/>:<Heart className="mr-2"/>} {post.likes.length} Likes 
-                </div>
-              </div>
             </div>
+              <p className="text-xl">{post.content}</p>
+              <p className="text-sm text-gray-400 float-end">{new Date(post.createdAt).toLocaleDateString()}</p>
+              <button disabled={post.likes.includes(username)} onClick={() => handlePostLike(post.id)} className={`flex ${post.likes.includes(username) ? "opacity-45 cursor-not-allowed":""}`}>
+                {post.likes.includes(username)?<Heart fill="red" className="mr-2"/>:<Heart className="mr-2"/>} {post.likes.length} Likes 
+              </button>
           </div>
         })}
       </div>
