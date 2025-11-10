@@ -52,6 +52,10 @@ export default function Home() {
         setNotifications([]);
       },3000);
     })
+
+    socket?.on("post update",(data) => {
+      setPosts(data);
+    })
   },[socket]);
 
   const handleSubmit = (e) => {
