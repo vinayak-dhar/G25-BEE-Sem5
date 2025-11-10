@@ -86,8 +86,8 @@ app.post("/post/like/:id/:username",(req,res)=>{
     // notification when some user liked the post
     if (Users[userPost.author] && username != userPost.author) {
       io.to(Users[userPost.author]).emit("notice", `${username} liked your post ${userPost.content}`);
-      io.emit("post update",Posts);
     }
+    io.emit("post update",Posts);
     res.status(200).json({message:"post updated successfully"});
   }
   catch(error) {
