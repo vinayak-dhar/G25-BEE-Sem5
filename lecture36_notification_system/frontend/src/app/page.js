@@ -1,6 +1,6 @@
 "use client"
 import axios from "axios";
-import { Heart, User } from "lucide-react";
+import { Bell, Heart, User } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
@@ -12,6 +12,7 @@ export default function Home() {
   const [content,setContent] = useState("");
   const [posts,setPosts] = useState([]);
   const [refresh,setRefresh] = useState(0);
+  const [notifications,setNotifications] = useState([]);
 
   // socket client initialise
   useEffect(() => {
@@ -40,6 +41,16 @@ export default function Home() {
     // use '?' for undefined handling if there is no socket then skip
     socket?.on("connect",() => {
       console.log(("user connected: ", socket.id));
+    })
+
+    socket?.on("notice",(data) => {
+      setNotifications((prev) => {
+        return [data,...prev]; // [...prev -> spread operator] 
+      })
+
+      setTimeout(() => {
+        setNotifications([]);
+      },3000);
     })
   },[socket]);
 
@@ -90,7 +101,15 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full bg-white text-black px-20 py-10">
-      <h1 className="text-2xl font-semibold">Hello {username}</h1>
+      <h1 className="text-2xl font-semibold">Hello {username}!!!</h1>
+
+      <div className="fixed top-5 right-2 flex flex-col gap-2">
+        {notifications?.map((notice,ind) => {
+          return <div key={ind} className="border rounded-md p-2 bg-green-500 capitalize flex gap-2"> 
+            <Bell size={20}/> {notice}
+          </div>
+        })}
+      </div>
 
       <form onSubmit={handlePostCreate} className="flex flex-col gap-2 border rounded-md px-4 py-5">
           <label form="username">Create Tweet</label>
