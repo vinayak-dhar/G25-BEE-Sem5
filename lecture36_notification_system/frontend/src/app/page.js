@@ -16,7 +16,7 @@ export default function Home() {
 
   // socket client initialise
   useEffect(() => {
-    const newSocket = io("http://localhost:5000");
+    const newSocket = io("https://g25-bee-sem5.onrender.com");
     setSocket(newSocket);
   },[]);
 
@@ -26,7 +26,7 @@ export default function Home() {
   // so to make it async -> will create a asysnc function then call it inside the useEffect
   const getAllPosts = async() => {
     if (isLoggedIn) {
-      let res = await axios.get('http://localhost:5000/post/all');
+      let res = await axios.get('https://g25-bee-sem5.onrender.com/post/all');
       setPosts(res.data.posts);
     }
   }
@@ -84,7 +84,7 @@ export default function Home() {
       username,
       content
     };
-    let res = await axios.post("http://localhost:5000/post/create",payload);
+    let res = await axios.post("https://g25-bee-sem5.onrender.com/post/create",payload);
     if (res.status == 201) {
       setRefresh(prev => prev+1);
     }
@@ -92,7 +92,7 @@ export default function Home() {
 
   const handlePostLike = async(id) => {
     try {
-      let res = await axios.post(`http://localhost:5000/post/like/${id}/${username}`);;
+      let res = await axios.post(`https://g25-bee-sem5.onrender.com/post/like/${id}/${username}`);;
       if (res.status == 200) {
         setRefresh(prev => prev + 1);
       }

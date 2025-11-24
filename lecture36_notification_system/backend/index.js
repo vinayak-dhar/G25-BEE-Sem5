@@ -7,7 +7,7 @@ const socket = require("socket.io");
 const {v4:uuid} = require('uuid');
 const io = socket(server,{
     cors:{
-        origin:"http://localhost:3000"
+        origin:"https://g25-bee-sem5.vercel.app"
     }
 });
 const PORT = 5000;
@@ -15,7 +15,7 @@ const path = require("path");
 const { register } = require("module");
 
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin:"https://g25-bee-sem5.vercel.app",
     methods:"POST,GET"
 }))
 app.use(express.json());
